@@ -19,10 +19,10 @@ const KittensList = props => {
 }
 
 const mapStateToProps = (entireReduxState, ownProps) => {
-  console.log('OWNPROPS', ownProps)
+  // console.log('OWNPROPS', ownProps)
   return {
     kittens: entireReduxState.kittens,
   }
 }
 
-export default connect(mapStateToProps)(KittensList)
+export default withRouter(connect(mapStateToProps)(KittensList))
