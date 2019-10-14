@@ -11,7 +11,15 @@ import { Provider } from 'react-redux'
 import store, { fetchKittens } from './store'
 import KittensList from './KittensList'
 
+// Only class components can use lifecycle methods, such as componentDidMount
+// I might also need a class component if I want to add state.
 class App extends React.Component {
+  constructor() {
+    super()
+    this.state = {
+      kittens: [],
+    }
+  }
   componentDidMount() {
     // store.dispatch({ type: 'SET_KITTENS', kittens })
     store.dispatch(fetchKittens())
@@ -27,8 +35,13 @@ class App extends React.Component {
               <NavLink to="/kittens">Kittens</NavLink>
             </nav>
             <Switch>
-              <Route
+              {/* <Route
                 path="/kittens"
+                // render={() => <KittensList header="Kittens List" />}
+                component={KittensList}
+              /> */}
+              <Route
+                path="/kittens/:id"
                 // render={() => <KittensList header="Kittens List" />}
                 component={KittensList}
               />

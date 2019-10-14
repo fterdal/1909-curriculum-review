@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, combineReducers } from 'redux'
 import { createLogger } from 'redux-logger'
 import thunkMiddleware from 'redux-thunk'
 import axios from 'axios'
@@ -7,7 +7,11 @@ import axios from 'axios'
 const SET_KITTENS = 'SET_KITTENS'
 
 // ACTION CREATORS
-export const setKittens = kittens => ({ type: 'SET_KITTENS', kittens })
+export const setKittens = (kittens, selectedKitten = { name: 'Fluffy'}) => ({
+  type: SET_KITTENS,
+  kittens,
+  selectedKitten,
+})
 
 // THUNK CREATORS
 export const fetchKittens = () => async dispatch => {
@@ -21,16 +25,35 @@ export const fetchKittens = () => async dispatch => {
 
 const initialState = {
   kittens: [],
+  selectedKitten: {},
 }
 
-const reducer = (state = initialState, action) => {
+const selectedKittenReducer = (state = initialState.kittens, action) => {
+  console.log('SELECTED KITTEN REDUCER')
   switch (action.type) {
     case SET_KITTENS:
-      return { ...state, kittens: action.kittens }
+      // return { ...state, kittens: action.kittens }
+      return action.selectedKitten
     default:
       return state
   }
 }
+
+const kittensReducer = (state = initialState.selectedKitten, action) => {
+  console.log('KITTENS REDUCER')
+  switch (action.type) {
+    case SET_KITTENS:
+      // return { ...state, kittens: action.kittens }
+      return action.kittens
+    default:
+      return state
+  }
+}
+
+const reducer = combineReducers({
+  kittens: kittensReducer,
+  selectedKitten: selectedKittenReducer,
+})
 
 const store = createStore(
   reducer,

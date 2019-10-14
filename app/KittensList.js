@@ -9,6 +9,7 @@ const KittensList = props => {
   if (!kittens || !kittens.length) return 'No kittens...😿'
   return (
     <div>
+      <h3>{props.location.pathname}</h3>
       {kittens.map(kitten => (
         <li key={kitten.id}>
           {kitten.name} - {kitten.color}
@@ -19,10 +20,10 @@ const KittensList = props => {
 }
 
 const mapStateToProps = (entireReduxState, ownProps) => {
-  console.log('OWNPROPS', ownProps)
+  console.log('OWNPROPS', ownProps.match.params)
   return {
     kittens: entireReduxState.kittens,
   }
 }
 
-export default connect(mapStateToProps)(KittensList)
+export default withRouter(connect(mapStateToProps)(KittensList))
