@@ -1,7 +1,10 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
 const KittensList = props => {
+  // console.log('PROPS', props)
   const { kittens } = props
+  if (!kittens || !kittens.length) return 'No kittens... 🙀'
   return (
     <div>
       {kittens.map(kitten => (
@@ -13,4 +16,8 @@ const KittensList = props => {
   )
 }
 
-export default KittensList
+const mapStateToProps = entireReduxState => ({
+  kittens: entireReduxState.kittens,
+})
+
+export default connect(mapStateToProps)(KittensList)

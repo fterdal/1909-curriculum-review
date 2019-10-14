@@ -6,7 +6,9 @@ import {
   Switch,
   NavLink,
 } from 'react-router-dom'
+import { Provider } from 'react-redux'
 
+import store from './store'
 import KittensList from './KittensList'
 
 const kittens = [
@@ -33,26 +35,30 @@ const kittens = [
   },
 ]
 
-const App = () => {
-  return (
-    <Router>
-      <div>
-        <nav>
-          <NavLink to="/">Home</NavLink>
-          <br />
-          <NavLink to="/kittens">Kittens</NavLink>
-        </nav>
-        <Switch>
-          <Route
-            path="/kittens"
-            render={() => <KittensList kittens={kittens} />}
-          />
-          <Route exact path="/" render={() => 'Homepage'} />
-          <Route render={() => 'Page Not Found'} />
-        </Switch>
-      </div>
-    </Router>
-  )
+class App extends React.Component {
+  componentDidMount() {
+    store.dispatch({ type: 'SET_KITTENS', kittens })
+  }
+  render() {
+    return (
+      <Provider store={store}>
+        <Router>
+          <div>
+            <nav>
+              <NavLink to="/">Home</NavLink>
+              <br />
+              <NavLink to="/kittens">Kittens</NavLink>
+            </nav>
+            <Switch>
+              <Route path="/kittens" render={() => <KittensList />} />
+              <Route exact path="/" render={() => 'Homepage'} />
+              <Route render={() => 'Page Not Found'} />
+            </Switch>
+          </div>
+        </Router>
+      </Provider>
+    )
+  }
 }
 
 render(<App />, document.getElementById('main'))
