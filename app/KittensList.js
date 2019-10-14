@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 const KittensList = props => {
-  // console.log('PROPS', props)
+  console.log('PROPS', props)
   const { kittens } = props
   if (!kittens || !kittens.length) return 'No kittens... 🙀'
   return (
