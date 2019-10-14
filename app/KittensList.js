@@ -1,10 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { withRouter } from 'react-router-dom'
 
 const KittensList = props => {
   console.log('PROPS', props)
   const { kittens } = props
-  if (!kittens || !kittens.length) return 'No kittens... 🙀'
+  // if (kittens.loading) return null
+  if (!kittens || !kittens.length) return 'No kittens...😿'
   return (
     <div>
       {kittens.map(kitten => (
@@ -16,8 +18,11 @@ const KittensList = props => {
   )
 }
 
-const mapStateToProps = entireReduxState => ({
-  kittens: entireReduxState.kittens,
-})
+const mapStateToProps = (entireReduxState, ownProps) => {
+  console.log('OWNPROPS', ownProps)
+  return {
+    kittens: entireReduxState.kittens,
+  }
+}
 
 export default connect(mapStateToProps)(KittensList)

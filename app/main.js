@@ -27,7 +27,11 @@ class App extends React.Component {
               <NavLink to="/kittens">Kittens</NavLink>
             </nav>
             <Switch>
-              <Route path="/kittens" render={() => <KittensList />} />
+              <Route
+                path="/kittens"
+                // render={() => <KittensList header="Kittens List" />}
+                component={KittensList}
+              />
               <Route exact path="/" render={() => 'Homepage'} />
               <Route render={() => 'Page Not Found'} />
             </Switch>

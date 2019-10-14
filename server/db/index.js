@@ -1,27 +1,29 @@
 const Sequelize = require('sequelize')
 
-const db = new Sequelize('postgres://localhost:5432/kittensdb')
+const db = new Sequelize('postgres://localhost:5432/kittensdb', {
+  logging: false,
+})
 
 const Kitten = db.define('kitten', {
   name: {
     type: Sequelize.STRING,
     allowNull: false,
     validate: {
-      notEmpty: true
-    }
+      notEmpty: true,
+    },
   },
   color: {
-    type: Sequelize.STRING,
-    validate: {
-      isIn: [
-        'brown',
-        'orange',
-        'black',
-        'calico',
-        'white',
-        'grey',
-      ]
-    }
+    type: Sequelize.ENUM([
+      'brown',
+      'orange',
+      'black',
+      'calico',
+      'white',
+      'grey',
+    ]),
+    // validate: {
+    //   isIn: ['brown', 'orange', 'black', 'calico', 'white', 'grey'],
+    // },
   },
   indoor: Sequelize.BOOLEAN,
   age: Sequelize.FLOAT,
