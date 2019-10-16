@@ -21,15 +21,23 @@ const Kitten = db.define('kitten', {
       'white',
       'grey',
     ]),
-    // validate: {
-    //   isIn: ['brown', 'orange', 'black', 'calico', 'white', 'grey'],
-    // },
   },
   indoor: Sequelize.BOOLEAN,
   age: Sequelize.FLOAT,
 })
 
+const Person = db.define('person', {
+  name: Sequelize.STRING
+})
+
+Kitten.belongsToMany(Person, { through: 'pets' })
+Person.belongsToMany(Kitten, { through: 'pets' })
+
+// Kitten.belongsTo(Person)
+// Person.hasMany(Kitten)
+
 module.exports = {
   db,
   Kitten,
+  Person,
 }
