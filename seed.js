@@ -1,4 +1,4 @@
-const { db, Kitten } = require('./server/db')
+const { db, Kitten, Person } = require('./server/db')
 
 const kittens = [
   {
@@ -21,14 +21,33 @@ const kittens = [
   },
 ]
 
+const people = [
+  { name: 'Collin' },
+  { name: 'Priti' },
+  { name: 'Finn' },
+  { name: 'Dan' },
+]
+
 const seed = async () => {
   try {
     await db.sync({ force: true })
     console.log('Synced to the database')
-    // const createdKittens = await Kitten.bulkCreate(kittens, { returning: true, validate: true })
-    const createdKittens = await Promise.all(kittens.map(kitten => Kitten.create(kitten)))
-    console.log(createdKittens)
-    console.log(`Seeded ${kittens.length} kittens!`)
+    // const createdKittens = await Promise.all(kittens.map(kitten => Kitten.create(kitten)))
+    const [ shelly, gurturde, rigatoni ] = await Kitten.bulkCreate(kittens, {
+      returning: true,
+      validate: true,
+    })
+    const [ collin, priti, finn, dan ] = await Person.bulkCreate(people, {
+      returning: true,
+      validate: true,
+    })
+    // await shelly.addPerson(finn)
+    await shelly.addPerson(finn)
+    await shelly.addPerson(dan)
+    await collin.addKitten(rigatoni)
+
+
+    // console.log(`Seeded ${kittens.length} kittens!`)
     db.close()
   } catch (err) {
     console.log(err)

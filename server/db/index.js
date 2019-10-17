@@ -29,7 +29,19 @@ const Kitten = db.define('kitten', {
   age: Sequelize.FLOAT,
 })
 
+const Person = db.define('person', {
+  name: Sequelize.STRING
+})
+
+// const CatPerson = db.define('cat_person', {
+//   adoptionDate: Sequelize.DATEONLY
+// })
+
+Kitten.belongsToMany(Person, { through: 'CatPerson' })
+Person.belongsToMany(Kitten, { through: 'CatPerson' })
+
 module.exports = {
   db,
   Kitten,
+  Person,
 }
